@@ -1,2 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Dork Arama</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ne Aramak İstiyorsunuz?</h1>
 
-hello
+        <div class="search-box">
+            <input type="text" id="searchQuery" placeholder="Lütfen aramak istediğiniz veriyi yazın" oninput="updateSearch()" />
+        </div>
+
+        <h3>Aranan Dosya</h3>
+        <div class="file-options">
+            <label for="exe">
+                <input type="radio" id="exe" name="fileType" value="exe"> Exe
+            </label>
+            <label for="pdf">
+                <input type="radio" id="pdf" name="fileType" value="pdf"> Pdf
+            </label>
+            <label for="rar">
+                <input type="radio" id="rar" name="fileType" value="rar"> Rar
+            </label>
+            <label for="all">
+                <input type="radio" id="all" name="fileType" value=""> Hepsi
+            </label>
+        </div>
+
+        <h3>Arama Noktası</h3>
+        <div class="search-locations">
+            <label for="drive">
+                <input type="radio" id="drive" name="searchPoint" value="drive.google.com"> Drive Üzerinden Ara
+            </label>
+            <label for="co">
+                <input type="radio" id="co" name="searchPoint" value="dosya.co"> Dosya.co Üzerinden Ara
+            </label>
+            <label for="yandex">
+                <input type="radio" id="yandex" name="searchPoint" value="disk.yandex.com"> Yandex Disk Üzerinden Ara
+            </label>
+            <label for="article">
+                <input type="radio" id="article" name="searchPoint" value="article"> Makale Olarak Ara
+            </label>
+            <label for="book">
+                <input type="radio" id="book" name="searchPoint" value="book"> Kitap Olarak Ara
+            </label>
+        </div>
+
+        <h3>Google Dork Seçenekleri</h3>
+        <div class="dork-options">
+            <label for="dork1">
+                <input type="radio" id="dork1" name="dorkType" value="inurl:"> URL'de Belirtilen Kelimeyi İçeren Sonuçlar (inurl:)
+            </label>
+            <label for="dork3">
+                <input type="radio" id="dork3" name="dorkType" value="allinurl:"> Her İki Kelimeyi de İçeren Sonuçlar (allinurl:)
+            </label>
+            <label for="dork4">
+                <input type="radio" id="dork4" name="dorkType" value="intitle:"> Başlıkta ve İçerikte Kelime İçeren Sonuçlar (intitle:)
+            </label>
+            <label for="dork5">
+                <input type="radio" id="dork5" name="dorkType" value="cache:"> Siteye Erişilemese de Ön Bellekte Saklanan Sonuçlar (cache:)
+            </label>
+            <label for="dork6">
+                <input type="radio" id="dork6" name="dorkType" value="intext:"> Sadece İçerikte Kelime İçeren Sonuçlar (intext:)
+            </label>
+            <label for="dork7">
+                <input type="radio" id="dork7" name="dorkType" value="site:facebook.com "> Facebook Hesapları (site:facebook.com)
+            </label>
+            <label for="dork8">
+                <input type="radio" id="dork8" name="dorkType" value="site:twitter.com "> Twitter Hesapları (site:twitter.com)
+            </label>
+            <label for="dork9">
+                <input type="radio" id="dork9" name="dorkType" value="site:linkedin.com "> LinkedIn Hesapları (site:linkedin.com)
+            </label>
+            <label for="dork10">
+                <input type="radio" id="dork10" name="dorkType" value="site:researchgate.net "> Yayınlar (site:researchgate.net)
+            </label>
+            <label for="dork11">
+                <input type="radio" id="dork11" name="dorkType" value="filetype:pdf "> PDF Belgeleri (filetype:pdf)
+            </label>
+            <label for="dork12">
+                <input type="radio" id="dork12" name="dorkType" value="intext:"> Kişisel Bloglar (intext:)
+            </label>
+            <label for="dork13">
+                <input type="radio" id="dork12" name="dorkType" value="site:instagram.com "> Instagram Hesapları (site:instagram.com)
+            </label>
+            <label for="dork14">
+                <input type="radio" id="dork13" name="dorkType" value="site:tiktok.com "> TikTok Hesapları (site:tiktok.com)
+            </label>
+        </div>
+
+        <div id="dorkExample">Örnek Arama: </div>
+
+        <button class="search-button" onclick="performSearch()">Ara</button>
+        <br><br>
+        <button class="virus-total-button" onclick="redirectVirusTotal()">VirusTotal</button>
+    </div>
+
+    <div class="security-tips">
+        <h3>Güvenli Arama Nasıl Yapılır?</h3>
+        <p class="warning">- Tanımadığınız web sitelerinden dosya indirmeyin.</p>
+        <p class="warning">- HTTPS ile başlayan sitelere güvenin, bu siteler daha güvenlidir.</p>
+        <p class="warning">- Bilmediğiniz linklere tıklamadan önce mutlaka doğruluğunu kontrol edin.</p>
+        <p class="warning">- Şifrelerinizi düzenli olarak güncelleyin ve güçlü şifreler oluşturun.</p>
+    </div>
+
+    <footer>
+        <p>Bu script <strong>onlyzafer</strong> tarafından yazılmıştır.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function updateExample() {
+            const selectedDork = document.querySelector('input[name="dorkType"]:checked')?.value || '';
+            const query = document.getElementById('searchQuery').value;
+            const dorkExample = document.getElementById('dorkExample');
+            dorkExample.textContent = `Örnek Arama: ${selectedDork}"${query}"`;
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchQuery').value;
+            const selectedDork = document.querySelector('input[name="dorkType"]:checked')?.value || '';
+            const fileType = document.querySelector('input[name="fileType"]:checked')?.value ? `filetype:${document.querySelector('input[name="fileType"]:checked').value}` : '';
+            const searchPoint = document.querySelector('input[name="searchPoint"]:checked')?.value ? `site:${document.querySelector('input[name="searchPoint"]:checked').value}` : '';
+            let dork = `${selectedDork}"${query}"`;
+
+            if (fileType) {
+                dork += ` ${fileType}`;
+            }
+            if (searchPoint) {
+                dork += ` ${searchPoint}`;
+            }
+
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(dork)}`);
+
+            document.getElementById('searchQuery').value = '';
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.getElementById('dorkExample').textContent = 'Örnek Arama: ';
+        }
+
+        function redirectVirusTotal() {
+            window.open("https://www.virustotal.com/");
+        }
+    </script>
+</body>
+</html>
